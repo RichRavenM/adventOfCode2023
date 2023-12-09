@@ -1,11 +1,5 @@
 const fs = require("fs");
 
-// const seq = [
-//   [0, 3, 6, 9, 12, 15],
-//   [1, 3, 6, 10, 15, 21],
-//   [10, 13, 16, 21, 30, 45],
-// ];
-
 const seq = fs
   .readFileSync("C:\\Users\\richa\\coding\\advent\\advent9\\advent9.txt", {
     encoding: "utf8",
@@ -16,7 +10,6 @@ const seq = fs
     const y = x.split(" ");
     return y.map((z) => +z);
   });
-
 
 const zeroFinder = (arr, acc = []) => {
   acc.unshift(arr);
@@ -37,13 +30,13 @@ const zeroFinder = (arr, acc = []) => {
 const newArr = zeroFinder(seq);
 
 const newEnd = (arr) => {
-  arr[0].push(0);
+  arr[0].unshift(0);
   for (let i = 1; i < arr.length; i++) {
-    const newVal = arr[i][arr[i].length - 1] + arr[i - 1][arr[i].length - 1];
-    arr[i].push(newVal);
+    const newVal = arr[i][0] - arr[i - 1][0];
+    arr[i].unshift(newVal);
   }
-  arr = arr.flat();
-  return arr[arr.length - 1];
+  arr = arr.reverse().flat();
+  return arr[0];
 };
 
 const output = seq.map((x) => newEnd(zeroFinder(x))).reduce((a, b) => a + b, 0);
